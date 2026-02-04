@@ -1,0 +1,247 @@
+
+
+body {
+  margin: 0;
+  font-family: 'PT-Root-UI', sans-serif;
+  background: #010101;
+  color: #E0DCEC;
+}
+
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0; 
+}
+
+
+.about-feed {
+  display: grid;
+
+  
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 20px;
+
+  
+  max-width: 900px;  
+  margin: 0 auto;     
+
+  padding: 20px;      
+}
+
+
+
+
+
+.post img {
+  width: 20%;
+  height: auto;
+  display: block;
+  border-radius: 100px;
+}
+
+
+
+
+
+
+/* Карточка поста */
+.post {
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(128, 89, 249, 0.3);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  height: auto;
+}
+
+
+.post:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(128, 89, 249, 0.5);
+}
+
+
+.post-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 15px 20px 0 20px;
+}
+
+.post-header .tag {
+  background: rgba(128, 89, 249, 0.3);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Блок с фото */
+.post-images {
+  display: flex;
+  overflow-x: auto;      
+  gap: 10px;
+  padding: 10px 20px;
+  min-height: 60%;
+}
+
+.post-images img {
+  flex: 0 0 auto;       
+  width: 200px;
+  height: auto;
+  border-radius: 100px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-images img:hover {
+  transform: scale(1.02);
+}
+
+/* Текст поста */
+.post p {
+  padding: 10px 20px 20px 20px;
+  line-height: 1.6;
+  font-weight: 300;
+  color: #ddd;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  margin: 0;
+}
+/* Модальное окно */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #111;
+  border-radius: 16px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  color: #B4A9EB;
+  transition: transform 0.2s;
+}
+
+.modal-close:hover {
+  transform: scale(1.2);
+}
+
+/* Фото внутри модалки */
+.modal-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.modal-images img {
+  width: calc(50% - 10px);
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+
+@media (max-width: 1200px) {
+  .about-feed {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    margin: 0 auto;
+    gap: 30px;
+    width: 60%;
+  }
+}
+
+@media (max-width: 900px) {
+  .about-feed {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  .post{
+    min-width: 30%;
+  }
+   .modal-content{
+     min-height: 500px;
+     width: 70%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-feed {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+   .post{
+    min-width: 30%;
+  }
+  .modal-content{
+    
+    min-height: 400px;
+    width: 70%;
+
+  }
+}
+/* Адаптивные фото */
+@media (max-width: 768px) {
+  .about-feed {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    width: 40%;
+    margin: 50px auto ;
+  }
+  .post-images img {
+    width: 100%;
+    height: auto;
+  }
+  .modal-content{
+    
+    min-height: 400px;
+    width: 70%;
+
+  }
+  .modal-images img {
+    width: 100%;
+  }
+    .post img {
+    height: 120px; 
+  }
+}

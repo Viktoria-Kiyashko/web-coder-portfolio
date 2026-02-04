@@ -1,0 +1,188 @@
+@font-face{
+    font-family: 'Mont';
+    src:url(fonts/Mont/Mont-ExtraLightDEMO.otf);
+    font-weight:300 ;
+}
+body{
+      display: grid; 
+  grid-template-columns: 1fr; 
+  margin: 0 328px 0 328px;
+  gap: 10px 10px; 
+  background-color: #27282A;
+  font-family: 'Mont';
+  
+}
+
+.title{
+    display: grid;
+    grid-column: 1/3;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    
+    
+}
+
+.filters{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    justify-content: space-between;
+    margin: 25px;
+    width: 946px;
+    height: 36px;
+    align-items: center;
+    margin-top: 20px;
+    color: white;
+    
+
+
+}
+
+.filters__inner--categories,
+.filters__inner--skills,
+.filters__inner--levels {
+    display: flex;              
+    align-items: center;          
+    justify-content: space-between; 
+    width: 309px;
+    height: 36px;
+    background-color: #3C3D3F;
+    border-radius: 10px;
+    padding: 0 15px;              
+    box-sizing: border-box;       
+}
+
+.filters__inner--title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between; 
+}
+
+.filters__inner--arrow {
+    flex-shrink: 0; 
+    cursor: pointer;
+}
+
+
+.filters__inner--title p {
+    flex-shrink: 0; 
+}
+
+.table__title{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    max-width: 100%;
+    grid-row: 3/4;
+    color: white;
+    margin: 0 0 15px 0;
+
+}
+
+.table{
+    display: grid;
+    grid-row: 4/4;
+     gap: 10px;
+     color: white;
+
+}
+
+.table__list {
+    display: grid;
+    grid-template-columns: 
+        minmax(279px, 1fr)   
+        minmax(61px, 1fr)  
+        minmax(80px, 1fr)   
+        minmax(100px, 1fr)   
+        minmax(216px, 1fr)   
+        minmax(80px, 1fr);  
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px 15px 20px;
+    background-color: #323335;
+    border-radius: 10px;
+    
+    
+}
+
+.table__list--name{
+    display: grid;
+    width: 100%;
+    max-width: 279px;
+}
+
+.table__list--skill{
+       display: flex;
+    justify-content: center;  
+    align-items: center; 
+    
+    border-radius: 10px;
+   
+   
+}
+
+
+.table__list--skill h3 {
+    display: inline-block;     
+    padding: 5px 15px;         
+    background-color: #47484A;
+    border-radius: 6px;
+    text-align: center;
+    margin: 0;
+    border-radius: 10px;
+}
+
+.table__list--level{
+    display: flex;
+    justify-content: center;  
+    align-items: center; 
+}
+
+
+
+.table__list--progress {
+      display: flex;
+     
+    align-items: center;       
+    gap: 5px; 
+                  
+}
+
+.table__list--progress p {
+    margin: 10px;   
+    white-space: nowrap;              
+}
+
+.table__list--questions {
+    flex-shrink: 0;            
+}
+
+.table__list--category {
+    display: grid;
+    white-space: normal;      
+    word-wrap: break-word;    
+    overflow: visible;        
+}
+.table__list--button{
+       display: flex;
+    justify-content: center;  
+    align-items: center; 
+    
+    border-radius: 10px;
+   
+   
+}
+
+
+.table__list--button h3 {
+    display: inline-block;   
+    width: 167px;  
+    padding: 5px 15px;         
+    background-color: #47484A;
+    border-radius: 6px;
+    text-align: center;
+    margin: 0;
+    border-radius: 10px;
+}
+

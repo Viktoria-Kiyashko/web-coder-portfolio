@@ -1,0 +1,85 @@
+
+
+/* Контейнер */
+.projects {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.projects h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Сетка */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* Карточка */
+.project-card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* Картинка */
+.project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Текст */
+.project-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #e6e6e6;
+}
+
+.project-card p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Кнопка */
+.project-card a {
+  margin-top: auto;
+  text-align: center;
+  padding: 10px;
+  background: #8059F9;
+  color: #2b2b2b;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.project-card a:hover {
+  background: #6c48e6;
+}
+
+/* Адаптив */
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
