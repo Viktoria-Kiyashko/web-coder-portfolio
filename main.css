@@ -971,9 +971,9 @@ section::after {
   }
 
  .mobile-button {
-  position: fixed;
-  bottom: 20px; 
-  left: 20px;
+  position: fixed !important;
+  bottom: 20px !important; 
+  left: 20px !important;
   width: 90px;
   height: 90px;
   border-radius: 50%;
