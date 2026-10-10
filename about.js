@@ -140,6 +140,10 @@ function createPostCard(post) {
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d9022d (Add CMS blog integration)
 async function loadCmsPosts() {
   try {
     const response = await fetch(
@@ -167,7 +171,7 @@ async function loadCmsPosts() {
 
 
 
-    const posts = results
+    /*const posts = results
       .filter(result => result.status === "fulfilled")
       .map(result => result.value);
 
@@ -186,7 +190,7 @@ async function loadCmsPosts() {
   } catch (error) {
     console.error("Не удалось загрузить блог:", error);
   }
-}
+}*/
 
 // Закрытие модального окна
 modalClose.addEventListener("click", closeModal);
