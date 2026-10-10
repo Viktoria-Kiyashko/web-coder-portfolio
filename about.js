@@ -1,51 +1,201 @@
-const posts = document.querySelectorAll('.post');
-const modal = document.getElementById('modal');
-const modalClose = document.getElementById('modalClose');
-const modalTitle = document.getElementById('modalTitle');
-const modalImages = document.getElementById('modalImages');
-const modalText = document.getElementById('modalText');
-const body = document.body;
 
-document.querySelectorAll('.post').forEach(post => {
-  post.addEventListener('click', () => {
-    modal.classList.add('active');
-    body.classList.add('modal-open'); // блокировка скролла
+const REPO = "Viktoria-Kiyashko/web-coder-portfolio";
+const BRANCH = "main";
+
+const modal = document.getElementById("modal");
+const modalClose = document.getElementById("modalClose");
+const modalTitle = document.getElementById("modalTitle");
+const modalImages = document.getElementById("modalImages");
+const modalText = document.getElementById("modalText");
+const cmsContainer = document.getElementById("cms-posts");
+
+const categories = {
+  personal: "Личное",
+  study: "Учёба",
+  work: "Работа",
+  "3d": "3D",
+  web: "Веб-разработка"
+};
+
+function closeModal() {
+  modal.classList.remove("active");
+  document.body.classList.remove("modal-open");
+}
+
+function openModal({ title, images = [], content, isHtml = false }) {
+  modalTitle.textContent = title;
+  modalImages.replaceChildren();
+
+  images.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = title;
+    modalImages.appendChild(img);
+  });
+
+  if (isHtml) {
+    modalText.innerHTML = DOMPurify.sanitize(
+      marked.parse(content)
+    );
+  } else {
+    modalText.textContent = content;
+  }
+
+  modal.classList.add("active");
+  document.body.classList.add("modal-open");
+}
+
+// Существующие записи из HTML
+document.querySelectorAll(".post").forEach(post => {
+  post.addEventListener("click", () => {
+    const tags = Array.from(
+      post.querySelectorAll(".tag")
+    ).map(tag => tag.textContent).join(" ");
+
+    const images = Array.from(
+      post.querySelectorAll("img")
+    ).map(img => img.src);
+
+    openModal({
+      title: tags,
+      images,
+      content: post.querySelector("p")?.textContent || ""
+    });
   });
 });
 
-document.querySelector('.modal-close').addEventListener('click', () => {
-  modal.classList.remove('active');
-  body.classList.remove('modal-open'); // возврат скролла
-});
+// Разделяем Markdown на метаданные и текст
+function parsePost(markdown) {
+  const match = markdown.match(
+    /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)([\s\S]*)/
+  );
 
-posts.forEach(post => {
-  post.addEventListener('click', () => {
-    // Заголовок из тегов 
-    const tags = Array.from(post.querySelectorAll('.tag')).map(t => t.textContent).join(' ');
-    modalTitle.textContent = tags;
+  if (!match) {
+    throw new Error("Неверный формат публикации");
+  }
 
-    // Копирование изображения
-    modalImages.innerHTML = '';
-    post.querySelectorAll('img').forEach(img => {
-      const modalImg = document.createElement('img');
-      modalImg.src = img.src;
-      modalImages.appendChild(modalImg);
+  const metadata = jsyaml.load(match[1]);
+
+  return {
+    ...metadata,
+    body: match[2].trim()
+  };
+}
+
+function createPostCard(post) {
+  const article = document.createElement("article");
+  article.className = "post";
+
+  const header = document.createElement("div");
+  header.className = "post-header";
+
+  const tag = document.createElement("span");
+  tag.className = "tag";
+  tag.textContent = "#" + (
+    categories[post.category] || post.category || "blog"
+  );
+  header.appendChild(tag);
+
+  const title = document.createElement("h3");
+  title.className = "post-title";
+  title.textContent = post.title || "Без названия";
+
+  const date = document.createElement("time");
+  date.className = "post-date";
+  date.textContent = post.date || "";
+
+  article.append(header, title, date);
+
+  if (post.cover) {
+    const image = document.createElement("img");
+    image.className = "cms-cover";
+    image.src = post.cover;
+    image.alt = post.title || "";
+    image.loading = "lazy";
+    article.appendChild(image);
+  }
+
+  const description = document.createElement("p");
+
+  description.textContent =
+    post.description ||
+    post.body.replace(/[#*_[\]`]/g, "").slice(0, 180) + "...";
+
+  article.appendChild(description);
+
+  article.addEventListener("click", () => {
+    openModal({
+      title: post.title,
+      images: post.cover ? [post.cover] : [],
+      content: post.body,
+      isHtml: true
+    });
+  });
+
+  return article;
+}
+
+async function loadCmsPosts() {
+  try {
+    const apiUrl =
+      `https://api.github.com/repos/${REPO}/contents/posts?ref=${BRANCH}`;
+
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      throw new Error(`GitHub API: ${response.status}`);
+    }
+
+    const files = await response.json();
+
+    const markdownFiles = files.filter(
+      file => file.name.endsWith(".md")
+    );
+
+    const results = await Promise.allSettled(
+      markdownFiles.map(async file => {
+        const response = await fetch(file.download_url);
+
+        if (!response.ok) {
+          throw new Error(`Не удалось загрузить ${file.name}`);
+        }
+
+        const markdown = await response.text();
+        return parsePost(markdown);
+      })
+    );
+
+    const posts = results
+      .filter(result => result.status === "fulfilled")
+      .map(result => result.value);
+
+    posts.sort((a, b) =>
+      String(b.date).localeCompare(String(a.date))
+    );
+
+    posts.forEach(post => {
+      cmsContainer.appendChild(createPostCard(post));
     });
 
-    // Текст
-    modalText.textContent = post.querySelector('p').textContent;
+    results
+      .filter(result => result.status === "rejected")
+      .forEach(result => console.error(result.reason));
 
-    // Показ модалки
-    modal.classList.add('active');
-  });
+  } catch (error) {
+    console.error("Не удалось загрузить блог:", error);
+  }
+}
+
+// Закрытие модального окна
+modalClose.addEventListener("click", closeModal);
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeModal();
 });
 
-// Закрытие модалки
-modalClose.addEventListener('click', () => {
-  modal.classList.remove('active');
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
 });
 
-// Закрытие кликом по фону
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) modal.classList.remove('active');
-});
+// Загрузка публикаций из CMS
+loadCmsPosts();
