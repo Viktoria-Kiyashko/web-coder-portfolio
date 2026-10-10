@@ -1,0 +1,59 @@
+
+media:
+  input: img/posts
+  output: /web-coder-portfolio/img/posts
+
+content:
+  - name: posts
+    label: Мой блог
+    type: collection
+    path: posts
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+
+    view:
+      fields: [title, date, category]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+
+    fields:
+      - name: title
+        label: Заголовок
+        type: string
+        required: true
+
+      - name: date
+        label: Дата публикации
+        type: date
+        required: true
+
+      - name: category
+        label: Категория
+        type: select
+        options:
+          values:
+            - value: personal
+              label: Личное
+            - value: study
+              label: Учёба
+            - value: work
+              label: Работа
+            - value: 3d
+              label: 3D и Blender
+            - value: web
+              label: Веб-разработка
+
+      - name: cover
+        label: Обложка
+        type: image
+
+      - name: description
+        label: Краткое описание
+        type: text
+
+      - name: body
+        label: Текст публикации
+        type: rich-text
