@@ -139,11 +139,6 @@ function createPostCard(post) {
 }
 
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d9022d (Add CMS blog integration)
 async function loadCmsPosts() {
   try {
     const response = await fetch(
@@ -171,26 +166,7 @@ async function loadCmsPosts() {
 
 
 
-    /*const posts = results
-      .filter(result => result.status === "fulfilled")
-      .map(result => result.value);
 
-    posts.sort((a, b) =>
-      String(b.date).localeCompare(String(a.date))
-    );
-
-    posts.forEach(post => {
-      cmsContainer.appendChild(createPostCard(post));
-    });
-
-    results
-      .filter(result => result.status === "rejected")
-      .forEach(result => console.error(result.reason));
-
-  } catch (error) {
-    console.error("Не удалось загрузить блог:", error);
-  }
-}*/
 
 // Закрытие модального окна
 modalClose.addEventListener("click", closeModal);
