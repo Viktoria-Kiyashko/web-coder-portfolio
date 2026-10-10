@@ -45,7 +45,7 @@ function openModal({ title, images = [], content, isHtml = false }) {
   document.body.classList.add("modal-open");
 }
 
-// Существующие записи из HTML
+
 document.querySelectorAll(".post").forEach(post => {
   post.addEventListener("click", () => {
     const tags = Array.from(
@@ -64,7 +64,7 @@ document.querySelectorAll(".post").forEach(post => {
   });
 });
 
-// Разделяем Markdown на метаданные и текст
+
 function parsePost(markdown) {
   const match = markdown.match(
     /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)([\s\S]*)/
@@ -138,35 +138,34 @@ function createPostCard(post) {
   return article;
 }
 
+
+
 async function loadCmsPosts() {
   try {
-    const apiUrl =
-      `https://api.github.com/repos/${REPO}/contents/posts?ref=${BRANCH}`;
-
-    const response = await fetch(apiUrl);
+    const response = await fetch(
+      "/web-coder-portfolio/posts.json"
+    );
 
     if (!response.ok) {
-      throw new Error(`GitHub API: ${response.status}`);
+      throw new Error(`Ошибка загрузки: ${response.status}`);
     }
 
-    const files = await response.json();
+    const posts = await response.json();
 
-    const markdownFiles = files.filter(
-      file => file.name.endsWith(".md")
-    );
+    cmsContainer.replaceChildren();
 
-    const results = await Promise.allSettled(
-      markdownFiles.map(async file => {
-        const response = await fetch(file.download_url);
+    posts.forEach(post => {
+      cmsContainer.appendChild(createPostCard(post));
+    });
 
-        if (!response.ok) {
-          throw new Error(`Не удалось загрузить ${file.name}`);
-        }
+    console.log(`Загружено публикаций: ${posts.length}`);
 
-        const markdown = await response.text();
-        return parsePost(markdown);
-      })
-    );
+  } catch (error) {
+    console.error("Не удалось загрузить блог:", error);
+  }
+}
+
+
 
     const posts = results
       .filter(result => result.status === "fulfilled")
