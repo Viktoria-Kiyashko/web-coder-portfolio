@@ -77,7 +77,10 @@ function parsePost(markdown) {
   const metadata = jsyaml.load(match[1]);
 
   return {
-    ...metadata,
+...metadata,
+    date: metadata.date instanceof Date
+      ? metadata.date.toISOString().slice(0, 10)
+      : String(metadata.date || ""),
     body: match[2].trim()
   };
 }
