@@ -139,6 +139,8 @@ function createPostCard(post) {
 }
 
 
+
+
 async function loadCmsPosts() {
   try {
     const response = await fetch(
@@ -167,6 +169,7 @@ async function loadCmsPosts() {
 
 
 
+ 
 
 // Закрытие модального окна
 modalClose.addEventListener("click", closeModal);
@@ -178,6 +181,8 @@ modal.addEventListener("click", event => {
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeModal();
 });
+
+
 
 // Загрузка публикаций из CMS
 loadCmsPosts();
