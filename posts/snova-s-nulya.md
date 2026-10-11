@@ -1,5 +1,5 @@
 ---
-title: Снова с нуля
+title: С чего начинаю и куда двигаюсь
 date: 2026-10-11
 category: study
 cover: /web-coder-portfolio/img/posts/Снимок экрана 2026-10-11 150009.png
